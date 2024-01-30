@@ -9,22 +9,34 @@ import { colors } from '../utils/colors';
 
 const ONE_SECOND_IN_MS = 1000;
 
-  const PATTERN = [
-    1 * ONE_SECOND_IN_MS,
-    1 * ONE_SECOND_IN_MS,
-    1 * ONE_SECOND_IN_MS,
-    1 * ONE_SECOND_IN_MS,
-    1 * ONE_SECOND_IN_MS,
-  ];
+const PATTERN = [
+  1 * ONE_SECOND_IN_MS,
+  1 * ONE_SECOND_IN_MS,
+  1 * ONE_SECOND_IN_MS,
+  1 * ONE_SECOND_IN_MS,
+  1 * ONE_SECOND_IN_MS,
+];
 
 export const Timer = ({ focusItem, clearItem }) => {
   const [isStarted, setIsStarted] = useState(false);
   const [progress, setProgress] = useState(1);
-  const [minutes, setMinutes] = useState(5);
+  const [minutes, setMinutes] = useState(0.1);
+ 
+  const onEnd = (reset) => {
+    Vibration.vibrate(PATTERN);
+    setIsStarted(false);
+    setProgress(1);
+    reset();
+  };
   return (
     <View style={styles.container}>
       <View style={styles.countdown}>
-        <Countdown minutes={minutes} onProgress={setProgress} isPaused={!isStarted} onEnd={() =>Vibration.vibrate(PATTERN)}/>
+        <Countdown
+          minutes={minutes}
+          onProgress={setProgress}
+          isPaused={!isStarted}
+          onEnd={onEnd}
+        />
         <View style={{ padding: spacing.xxl }}>
           <Text style={styles.title}>Focusing on: </Text>
           <Text style={styles.task}>{focusItem}</Text>
@@ -67,7 +79,7 @@ const styles = StyleSheet.create({
   timingWrapper: {
     flex: 0.1,
     flexDirection: 'row',
-    paddingTop: spacing.xxl
+    paddingTop: spacing.xxl,
   },
   buttonWrapper: {
     flex: 0.3,
