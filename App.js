@@ -18,7 +18,7 @@ export default function App() {
       {!currentItem ? (
         <Focus addItem={setCurrentItem} />
       ) : (
-        <Timer focusItem = {currentItem} onTimerEnd={() => {}} clearItem = {() => {}}/>
+        <Timer focusItem = {currentItem} onTimerEnd={() => {}} clearItem = {() => setCurrentItem(null)}/>
       )}
     </SafeAreaView>
   );

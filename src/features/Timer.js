@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Vibration } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { Countdown } from '../components/CountDown';
 import { RoundedButton } from '../components/RoundedButton';
+import { Timing } from './Timing';
 import { spacing } from '../utils/sizes';
 import { colors } from '../utils/colors';
 
@@ -16,10 +17,10 @@ const ONE_SECOND_IN_MS = 1000;
     1 * ONE_SECOND_IN_MS,
   ];
 
-export const Timer = ({ focusItem }) => {
+export const Timer = ({ focusItem, clearItem }) => {
   const [isStarted, setIsStarted] = useState(false);
   const [progress, setProgress] = useState(1);
-  const [minutes, setMinutes] = useState(0.1);
+  const [minutes, setMinutes] = useState(5);
   return (
     <View style={styles.container}>
       <View style={styles.countdown}>
@@ -36,6 +37,9 @@ export const Timer = ({ focusItem }) => {
           style={{ height: spacing.sm }}
         />
       </View>
+      <View style={styles.timingWrapper}>
+        <Timing onChangeTime={setMinutes} />
+      </View>
       <View style={styles.buttonWrapper}>
         {!isStarted && (
           <RoundedButton title="start" onPress={() => setIsStarted(true)} />
@@ -43,6 +47,9 @@ export const Timer = ({ focusItem }) => {
         {isStarted && (
           <RoundedButton title="pause" onPress={() => setIsStarted(false)} />
         )}
+      </View>
+      <View style={styles.clearItemWrapper}>
+        <RoundedButton size={50} title="-" onPress={clearItem} />
       </View>
     </View>
   );
@@ -57,12 +64,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  timingWrapper: {
+    flex: 0.1,
+    flexDirection: 'row',
+    paddingTop: spacing.xxl
+  },
   buttonWrapper: {
     flex: 0.3,
     flexDirection: 'row',
-    padding: 15,
+    padding: spacing.md,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  clearItemWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   title: {
     color: colors.white,
