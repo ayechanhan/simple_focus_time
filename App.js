@@ -8,18 +8,17 @@ import {
   Platform,
 } from 'react-native';
 import { colors } from './src/utils/colors';
+import { Timer } from './src/features/Timer';
 import { Focus } from './src/features/focus';
 
 export default function App() {
-  const [currentItem, setCurrentItem] = useState(null);
+  const [currentItem, setCurrentItem] = useState("Test");
   return (
     <SafeAreaView style={styles.container}>
       {!currentItem ? (
         <Focus addItem={setCurrentItem} />
       ) : (
-        <View>
-          <Text style={{color: colors.white}}>I am going to render the timer for {currentItem}</Text>
-        </View>
+        <Timer focusItem = {currentItem} onTimerEnd={() => {}} clearItem = {() => {}}/>
       )}
     </SafeAreaView>
   );
