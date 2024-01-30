@@ -10,15 +10,20 @@ import {
 import { colors } from './src/utils/colors';
 import { Timer } from './src/features/Timer';
 import { Focus } from './src/features/focus';
+import { FocusHistory } from './src/features/FocusHistory'; 
 
 export default function App() {
-  const [currentItem, setCurrentItem] = useState("Test");
+  const [currentItem, setCurrentItem] = useState();
+  const [history, setHistory] = useState([]);
   return (
     <SafeAreaView style={styles.container}>
       {!currentItem ? (
+        <>
         <Focus addItem={setCurrentItem} />
+        <FocusHistory history={history}/>
+        </>
       ) : (
-        <Timer focusItem = {currentItem} onTimerEnd={() => {}} clearItem = {() => setCurrentItem(null)}/>
+        <Timer focusItem = {currentItem} onTimerEnd={(item) => setHistory([...history, item])} clearItem = {() => setCurrentItem(null)}/>
       )}
     </SafeAreaView>
   );
